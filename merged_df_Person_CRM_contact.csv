@@ -1,0 +1,33 @@
+Attribute,All_Meet_Requirements,Valid Length Counts,Invalid Length Counts,NULL Count,Hact-Entity,Comment,MIS_Attribute,Mis_Type,Hact_Attribute,Hact_Type,Is_Matched,Attributes not present in CRM.Contact,Extraction_source,Incorrect_Date_format
+birthdate,TRUE,86545,0,68446,"Contact:Person, Person",min_len and max_len are NaN; no length requirement,mis_birthdate_type,date,Hact_BirthDate,date,TRUE,"Title
+Nationality
+PlaceOfBirth
+Age
+BasisForProcessing
+Citizenship
+DBSChecked","Table_Schema= CRM
+Table = contact","2961-01-27,4"
+fullname,TRUE,154962,0,29,PersonName,min_len and max_len are NaN; no length requirement,mis_fullname_type,nvarchar,Hact_Full,string,TRUE,"Title
+Nationality
+PlaceOfBirth
+Age
+BasisForProcessing
+Citizenship
+DBSChecked","Table_Schema= CRM
+Table = contact","2965-09-07,4"
+middlename,TRUE,332,0,154659,PersonName,min_len and max_len are NaN; no length requirement,mis_middlename_type,nvarchar,Hact_Middle,string,TRUE,"Title
+Nationality
+PlaceOfBirth
+Age
+BasisForProcessing
+Citizenship
+DBSChecked","Table_Schema= CRM
+Table = contact","2980-11-25,4"
+salutation,TRUE,114919,0,40072,"Contact:Person, Person",min_len and max_len are NaN; no length requirement,mis_salutation_type,nvarchar,Hact_Salutation,string,TRUE,"Title
+Nationality
+PlaceOfBirth
+Age
+BasisForProcessing
+Citizenship
+DBSChecked","Table_Schema= CRM
+Table = contact","2948-01-27,4"
