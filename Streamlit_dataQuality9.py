@@ -83,48 +83,56 @@ custom_css = """
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
+# Specify the path to your CSV file
+csv_file_path = 'merged_df_Person_CRM_contact.csv'
+
+# Load and display data automatically
+df = pd.read_csv(csv_file_path)
+
 
 # File uploader for CSV input
-uploaded_file = st.file_uploader("Choose a CSV file", type=['csv'])
+# uploaded_file = st.file_uploader("Choose a CSV file", type=['csv'])
+selected_attribute = st.selectbox('Select a Property:', options=df['Attribute'].unique())
 
-if uploaded_file is not None:
+
+if selected_attribute:
     # Load and display data
-    df = pd.read_csv(uploaded_file)
+    # df = pd.read_csv(uploaded_file)
     # selected_attribute = st.selectbox('Select a Property:', df['Attribute'].unique(), index=0, format_func=lambda x: f"🔹 {x}")
     # selected_attribute = st.selectbox('Select a Property:', df['Attribute'].unique())
-    selected_attribute = st.selectbox('Select a Property:',options=df['Attribute'].unique())
+    # selected_attribute = st.selectbox('Select a Property:',options=df['Attribute'].unique())
     # Display the selected value
     st.write('You selected:', selected_attribute)
        # selected_attribute = st.selectbox('Select a Property:', df['Attribute'].unique())
     # selected_attribute = st.selectbox(st.text('Select a Property:)',  df['Attribute'].unique()))
 
-    if selected_attribute:
+   
         # Creating gauge charts within columns
-        gauge_columns = st.columns(3)
-        attribute_data = df[df['Attribute'] == selected_attribute].iloc[0]
+    gauge_columns = st.columns(3)
+    attribute_data = df[df['Attribute'] == selected_attribute].iloc[0]
 
-        valid_counts = attribute_data['Valid Length Counts']
-        invalid_counts = attribute_data['Invalid Length Counts']
-        null_counts = attribute_data['NULL Count']
+    valid_counts = attribute_data['Valid Length Counts']
+    invalid_counts = attribute_data['Invalid Length Counts']
+    null_counts = attribute_data['NULL Count']
 
-        max_values = {
+    max_values = {
             'Valid Length Counts': max(df['Valid Length Counts']) * 1.1,
             'Invalid Length Counts': max(df['Invalid Length Counts'], default=10) * 1.1,
             'NULL Count': max(df['NULL Count']) * 1.1
         }
 
-        gauges = ['Valid Length Counts', 'Invalid Length Counts', 'NULL Count']
-        count_values = [valid_counts, invalid_counts, null_counts]
-        colors = ["green", "red", "orange"]
+    gauges = ['Valid Length Counts', 'Invalid Length Counts', 'NULL Count']
+    count_values = [valid_counts, invalid_counts, null_counts]
+    colors = ["green", "red", "orange"]
 
-        for i, gauge_column in enumerate(gauge_columns):
-            with gauge_column:
-                gauge = go.Figure(go.Indicator(
-                    mode="gauge+number",
-                    value=count_values[i],
-                    domain={'x': [0, 1], 'y': [0, 1]},
-                    title={'text': gauges[i], 'font': {'size': 22}},
-                    gauge={
+    for i, gauge_column in enumerate(gauge_columns):
+        with gauge_column:
+            gauge = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=count_values[i],
+                domain={'x': [0, 1], 'y': [0, 1]},
+                title={'text': gauges[i], 'font': {'size': 22}},
+                gauge={
                         'axis': {'range': [None, max_values[gauges[i]]], 'tickwidth': 1, 'tickcolor': "darkblue", 'tickfont': {'size': 18}},
                         'bar': {'color': colors[i]},
                         'bgcolor': "white",
@@ -138,32 +146,32 @@ if uploaded_file is not None:
                             'line': {'color': "red", 'width': 4},
                             'thickness': 0.75,
                             'value': count_values[i]
-                        }
                     }
-                ))
-                gauge.update_layout(paper_bgcolor="white", font={'size': 18, 'color': "darkblue"})
-                st.plotly_chart(gauge, use_container_width=True)
+                }
+            ))
+            gauge.update_layout(paper_bgcolor="white", font={'size': 18, 'color': "darkblue"})
+            st.plotly_chart(gauge, use_container_width=True)
 
         # Display additional attribute details with larger fonts
-        details = [
+    details = [
             ('Comment', attribute_data['Comment']),
             ('MIS Property DataType', attribute_data['Mis_Type']),
             ('Hact Property DataType', attribute_data['Hact_Type'])
         ]
 
-        for title, detail in details:
-            st.markdown(f'<div class="info-box"><div class="info-title">{title}:</div><div style="font-size: 18px;">{detail}</div></div>', unsafe_allow_html=True)
+    for title, detail in details:
+        st.markdown(f'<div class="info-box"><div class="info-title">{title}:</div><div style="font-size: 18px;">{detail}</div></div>', unsafe_allow_html=True)
         
         # Title for the text area
-        st.markdown("#### Attributes not present in CRM.Contact but in Hact Data-Standards", unsafe_allow_html=True)
+    st.markdown("#### Attributes not present in CRM.Contact but in Hact Data-Standards", unsafe_allow_html=True)
         # Attributes not present in CRM.Contact but in Hact Data-Standards
-        unique_attributes = df['Attributes not present in CRM.Contact'].dropna().unique()
-        constant_attributes = "<div class=\"bordered-text-box\">" + "<br>".join(unique_attributes) + "</div>"
-        st.markdown(constant_attributes, unsafe_allow_html=True)
+    unique_attributes = df['Attributes not present in CRM.Contact'].dropna().unique()
+    constant_attributes = "<div class=\"bordered-text-box\">" + "<br>".join(unique_attributes) + "</div>"
+    st.markdown(constant_attributes, unsafe_allow_html=True)
 
-        # Title for the text area
-        st.markdown("#### Data Extraction Source", unsafe_allow_html=True)
+    # Title for the text area
+    st.markdown("#### Data Extraction Source", unsafe_allow_html=True)
         # Attributes not present in CRM.Contact but in Hact Data-Standards
-        unique_attributesA = df['Extraction_source'].dropna().unique()
-        constant_attributesA = "<div class=\"bordered-text-box\">" + "<br>".join(unique_attributesA) + "</div>"
-        st.markdown(constant_attributesA, unsafe_allow_html=True)
+    unique_attributesA = df['Extraction_source'].dropna().unique()
+    constant_attributesA = "<div class=\"bordered-text-box\">" + "<br>".join(unique_attributesA) + "</div>"
+    st.markdown(constant_attributesA, unsafe_allow_html=True)
